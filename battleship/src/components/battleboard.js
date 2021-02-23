@@ -1,5 +1,4 @@
 import React from 'react';
-import Square from './square'
 import Row from './row'
 import Cell from './cell'
 
@@ -7,6 +6,13 @@ import Cell from './cell'
 class Board extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            num: 0
+        }
+    }
+
+    handleClick = (event) => {
+        this.props.handleClick(event)
     }
 
     render() {
@@ -21,10 +27,10 @@ class Board extends React.Component {
 
 
         return(
-            <div className="grid">
+            <div className="board">
                 {matrix.map((row, ri) => (
                     <Row key={ri}>
-                        {row.map(cellId => <Cell key={cellId} id={cellId}/>)}
+                        {row.map(cellId => <Cell key={cellId} handleClick={this.handleClick} id={cellId}/>)}
                     </Row>
                 ))}
             </div>
