@@ -45,8 +45,23 @@ class Gameplay extends React.Component {
         if(shipsSet===false && playerTurn === player1Name) {
             return(
                 <div>
-                <InfoScene title="Add your ships to the grid" desc="Add the ships" />
+                <InfoScene title="Place your ships for the game to begin faggots..."></InfoScene>
+                <div class="row">
+                <div class="board">
+                <h1>Player: {this.props.player1Name}</h1>
                 <BattleBoard rows={rows} columns={columns} handleClick={this.shipAddClick.bind(this)}/>
+                </div>
+                <div class="info">
+                <h1>Available ships:</h1>
+                <ul>
+                    <a>Paatit tähän</a>
+                </ul>
+                </div>
+                <div class="board">
+                <h1>Player: {this.props.player2Name}</h1>
+                <BattleBoard rows={rows} columns={columns} handleClick={this.shipAddClick.bind(this)}/>
+                </div>
+                </div>
                 </div>
             )
         }
