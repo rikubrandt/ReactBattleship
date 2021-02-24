@@ -8,11 +8,14 @@ class Game extends React.Component {
         this.state = {
             player1: '',
             player2: '',
+            total: 0,
+            boats: {
             carrier: 0,
             battleship: 0,
             cruiser: 0,
             submarine: 0,
             destroyer: 0,
+            },
             gameGridSize: 5,
             gameSetup: false
         }
@@ -40,6 +43,20 @@ class Game extends React.Component {
         }
 
     }
+
+    //assign the total value of boats to total variable
+    componentDidMount() {
+        this.setState({ total: this.calculateTotal(this.state.boats) });
+      }
+      //Calculate the total number of boats assigned for the game
+      calculateTotal = (boats) => {
+        return Object.entries(boats).reduce((finalValue, [key, value]) => {
+          if (value === "") {
+            return finalValue;
+          }
+          return finalValue + value;
+        }, 0);
+      }
 
     render() {
         const {gameSetup} = this.state
