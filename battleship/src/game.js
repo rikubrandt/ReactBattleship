@@ -1,9 +1,12 @@
 import React from 'react';
 import Gameform from './gameform'
 import Gameplay from './gameplay'
+import shipSizes from './shipSizes';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 class Game extends React.Component {
-    constructor(props) {
+    constructor() {
         super()
         this.state = {
             player1: '',
@@ -23,6 +26,11 @@ class Game extends React.Component {
     onChange = (field, value) => {
        this.setState({[field]: value})
     }
+    onShipChange = (field, value) => {
+        let newBoat = this.state.boats
+        newBoat[field] = parseInt(value)
+        this.setState({boats: newBoat})
+    }
     onSubmit = (event) => {
         event.preventDefault()
 
@@ -34,47 +42,53 @@ class Game extends React.Component {
             cruiser: event.target.cruiser.value,
             submarine: event.target.submarine.value,
             destroyer: event.target.destroyer.value,
-            gameGridSize: event.target.gridSize.value,
+            gameGridSize: event.target.gameGridSize.value,
         })
         if(this.state.player1.length<1 || this.state.player2.length <1) {
             alert("Please add player names.")
+        }else if(this.calculateTotalNumberOfBoatSquares(this.state.boats)>this.state.gameGridSize*this.state.gameGridSize) {
+            alert("Its too growded, less ships or more grid boe")
         } else {
             this.setState({gameSetup: true})
         }
 
     }
+    
 
-    //assign the total value of boats to total variable
-    componentDidMount() {
-        this.setState({ total: this.calculateTotal(this.state.boats) });
-      }
-      //Calculate the total number of boats assigned for the game
-      calculateTotal = (boats) => {
-        return Object.entries(boats).reduce((finalValue, [key, value]) => {
-          if (value === "") {
-            return finalValue;
-          }
-          return finalValue + value;
-        }, 0);
-      }
+     calculateTotalNumberOfBoatSquares = (boats) => {
+        return Object.keys(boats).reduce(function (total, key) {
+            return total + boats[key] * shipSizes[key]
+        }, 0)
+    }
+
 
     render() {
         const {gameSetup} = this.state
         if(!gameSetup) {
             return(
                 <div className="container">
-                    <Gameform onChange={this.onChange} onSubmit={this.onSubmit} gridSize={this.state.gameGridSize} />
+                    <Gameform onChange={this.onChange} onSubmit={this.onSubmit} gridSize={this.state.gameGridSize} onShipChange={this.onShipChange} />
                 </div>
             )
         }else {
             return(
+                <DndProvider backend={HTML5Backend} >
                 <div className="container">
-                    <Gameplay rows={this.state.gameGridSize} columns={this.state.gameGridSize} player1Name={this.state.player1} player2Name={this.state.player2} />
+                    <Gameplay 
+                    boats={this.state.boats}
+                     rows={this.state.gameGridSize}
+                      columns={this.state.gameGridSize}
+                       player1Name={this.state.player1}
+                        player2Name={this.state.player2} />
                 </div>
+                </DndProvider>
             )
         }
         
     }
 }
+
+
+
 
 export default Game

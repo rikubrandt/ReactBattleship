@@ -41,23 +41,16 @@ code {
 }
 
 input {
-  width: 30%
+  width: 30%;
+  margin: 3px;
+}
+
+#shipForm {
+  width: 50px;
 }
 
 
-.ships {
-  display:grid;
-  padding: 10px;
-  grid-template-columns: 200px 1fr;
-  grid-gap: 10px;
-}
 
-.row{
-
-  display:inline-flex;
-  clear:both;
-  text-align: center;
-}
 
 .info{
 width: 35%;

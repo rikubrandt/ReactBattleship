@@ -9,6 +9,12 @@ class Gameform extends React.Component {
         this.props.onChange(fieldName, fieldValue);
     }
 
+    onShipFieldChange(event) {
+        const fieldName = event.target.name;
+        const fieldValue = event.target.value;
+        this.props.onShipChange(fieldName, fieldValue);
+    }
+
 
     render() {
     return(
@@ -18,14 +24,25 @@ class Gameform extends React.Component {
             Player 1 name: <input name="player1" onChange={this.onFieldChange.bind(this)} /> <br/>
             Player 2 name: <input name="player2" onChange={this.onFieldChange.bind(this)} /><br/>
             <h2>Enter the amount of ships for the game</h2>
-            <div class="ships">
-            carrier (0-1): <input name="carrier" onChange={this.onFieldChange.bind(this)} /> <br/>
-            battleship (0-2): <input name="battleship" onChange={this.onFieldChange.bind(this)} /><br/>
-            cruiser (0-3): <input name="cruiser" onChange={this.onFieldChange.bind(this)} /> <br/>
-            submarine (0-4): <input name="submarine" onChange={this.onFieldChange.bind(this)} /><br/>
-            destroyer (0-5): <input name="destroyer" onChange={this.onFieldChange.bind(this)} /> <br/>
-            </div>
-            Grid Size: <input type="range" list="tickmarks" defaultValue="5" min="5" max="10" name="gridSize" onChange={this.onFieldChange.bind(this)}/><br/> 
+
+            <label htmlFor="carrier">carrier (0-1):</label>
+            <input type="number" id="shipForm" name="carrier" min="0" max="1" onChange={this.onShipFieldChange.bind(this)}  /> 
+            <br/>
+            <label htmlFor="battleship">battleship (0-2):</label>
+            <input type="number" id="shipForm" name="battleship" min="0" max="2" onChange={this.onShipFieldChange.bind(this)} />
+            <br/>
+            <label htmlFor="cruiser">cruiser (0-3):</label>
+            <input type="number" id="shipForm" name="cruiser" min="0" max="3" onChange={this.onShipFieldChange.bind(this)} /> 
+            <br/>
+        
+            <label htmlFor="submarine">submarine (0-4):</label>
+            <input type="number" id="shipForm" name="submarine" min="0" max="4" onChange={this.onShipFieldChange.bind(this)} />
+            <br/>
+            <label htmlFor="destroyer">destroyer (0-5):</label>
+            <input type="number" id="shipForm" name="destroyer" min="0" max="5" onChange={this.onShipFieldChange.bind(this)} /> 
+            <br/>
+            
+            Grid Size: <input type="range" list="tickmarks" defaultValue="5" min="5" max="10" name="gameGridSize" onChange={this.onFieldChange.bind(this)}/><br/> 
             <datalist id="tickmarks">
                 <option value="5"></option>
                 <option value="6"></option>

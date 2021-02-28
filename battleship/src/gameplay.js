@@ -2,8 +2,10 @@ import React from 'react';
 import BattleBoard from './components/battleboard'
 import InfoScene from './components/infoScene'
 import MiddleScene from './components/middleScene';
+import Ship from './components/ship'
 import './index.css';
-
+import ShipPlacementBoard from './components/shipPlacementBoard'
+import ShipSizes from './shipSizes';
 
 class Gameplay extends React.Component {
     constructor(props) {
@@ -15,8 +17,44 @@ class Gameplay extends React.Component {
             infoSceneDesc: '',
             shipsSet: false,
             gameOver: false,
+            p1ShipPlacement: [
+
+            ]
 
         }
+    }
+
+    shipDropHandler = (size, name, location) => {
+        const gridSize = this.props.rows 
+        console.log(size, name, location)
+        let shipPlacement = this.state.p1ShipPlacement
+        var ok = false
+        //location "23"
+        var row = location[0]
+        var endSquare = parseInt(location[1])+parseInt(size)
+        console.log(endSquare)
+        if(endSquare>gridSize) {
+            console.log("Ei mahdu")
+            return null
+        }
+
+        for(var i=location[1];i<endSquare;i++) {
+            var square =  ""+row+i
+            if(this.checkIfSquareOccupied(square)) {
+                console.log("Occupied")
+                ok = false
+                break
+            }
+            shipPlacement.push(square)
+            ok = true
+        }
+        if(ok) {
+        this.setState({p1ShipPlacement: shipPlacement})
+        }
+    }
+
+    checkIfSquareOccupied = (square) => {
+        return this.state.p1ShipPlacement.includes(square)
     }
 
     middleSceneClick = (event) => {
@@ -28,13 +66,30 @@ class Gameplay extends React.Component {
         this.setState({showMiddleScene: false})
     }
 
-    shipAddClick = (event) => {
+    gridShoot = (event) => {
         console.log("Grid number "+ event)
     }
 
+    initializeShips(ships) {
+        var shipComponents = []
+        var uniqueKey = 0
+        Object.keys(ships).map(function(key){
+            uniqueKey++
+            const shipCount = ships[key]
+            for(let i=0;i<shipCount;i++) {
+                shipComponents.push(<Ship key={uniqueKey} size={ShipSizes[key]}/>)
+                uniqueKey++
+                }
+            return null
+        })
+        return shipComponents
+    }
+
     render() {
-        const {rows, columns, player1Name, player2Name} = this.props
-        const {showMiddleScene, playerTurn, shipsSet} = this.state
+        const {rows, columns, player1Name, player2Name, boats} = this.props
+        const {showMiddleScene, playerTurn, shipsSet, p1ShipPlacement} = this.state
+
+        const shipsComponents = this.initializeShips(boats)
 
         //Cutscene so for changing the active player.
         if(showMiddleScene===true) {
@@ -42,26 +97,21 @@ class Gameplay extends React.Component {
                 <MiddleScene player={playerTurn} handleClick={this.middleSceneClick} />
             )
         }
-        if(shipsSet===false && playerTurn === player1Name) {
+        if(!shipsSet && playerTurn === player1Name) {
             return(
                 <div>
-                <InfoScene title="Place your ships for the game to begin faggots..."></InfoScene>
-                <div class="row">
-                <div class="board">
+                <InfoScene title="Place your ships " />
                 <h1>Player: {this.props.player1Name}</h1>
-                <BattleBoard rows={rows} columns={columns} handleClick={this.shipAddClick.bind(this)}/>
-                </div>
-                <div class="info">
-                <h1>Available ships:</h1>
-                <ul>
-                    <a>Paatit tähän</a>
+                <BattleBoard rows={rows} columns={columns} handleClick={this.gridShoot.bind(this)}/>
+                <ul className="shipUl">
+                {shipsComponents.map((component, index) => (
+                    <li key={index}>
+                    {component}
+                    </li>
+                ))}
                 </ul>
-                </div>
-                <div class="board">
-                <h1>Player: {this.props.player2Name}</h1>
-                <BattleBoard rows={rows} columns={columns} handleClick={this.shipAddClick.bind(this)}/>
-                </div>
-                </div>
+                <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
+                
                 </div>
             )
         }

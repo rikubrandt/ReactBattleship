@@ -1,25 +1,24 @@
 import React from 'react';
+import { ItemTypes } from '../utils'
+import { useDrop } from 'react-dnd'
 import '../index.css';
 
-class Cell extends React.Component {
+function Cell (props) {
     
-    handleClick = (event) => {
-      this.props.handleClick(event.target.id)
+    const handleClick = (event) => {
+      props.handleClick(props.id)
     }
-    
-    render() {
-  
       return (
   
-        <div onClick={this.handleClick} id={this.props.id} className="cell">
+        <div onClick={handleClick} id={props.id} className="cell">
   
-          {this.props.id}
+          {props.id}
   
         </div>
   
-      );
+      )
   
-    }
+    
   
   }
   
