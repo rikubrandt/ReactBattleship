@@ -49,6 +49,26 @@ input {
   width: 50px;
 }
 
+.ship-container {
+  display: table;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-spacing: 2px;
+  margin-left:20%;
+  margin-right: 20%;
+  margin-bottom: 5%;
+  width: 50%; 
+}
+
+.ticker-box {
+  border: .1rem solid #2a2b2a;
+  cursor: pointer;
+  font-size: 2rem;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
 
 
 
