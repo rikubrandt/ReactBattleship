@@ -6,18 +6,18 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 class Game extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             player1: '',
             player2: '',
             total: 0,
             boats: {
-            carrier: 0,
-            battleship: 0,
-            cruiser: 0,
-            submarine: 0,
-            destroyer: 0,
+            carrier: this.props.carrier,
+            battleship: this.props.battleship,
+            cruiser: this.props.cruiser,
+            submarine: this.props.submarine,
+            destroyer: this.props.destroyer,
             },
             gameGridSize: 5,
             gameSetup: false
