@@ -20,23 +20,22 @@ class Gameform extends React.Component {
     }
 
     onShipFieldChange(event) {
+        console.log(event)
         const fieldName = event.target.name;
         const fieldValue = event.target.value;
         this.props.onShipChange(fieldName, fieldValue);
     }
 
     IncrementItem = (key) => {
-        const Value = this.state[key];
-
-        this.setState({ [ key ]: Value + 1 });
-
+        const value = this.state[key];
+        this.setState({ [ key ]: value + 1 });
+        this.props.onShipChange(key, value+1)
     }
     
     DecrementItem = (key) => {
-        const Value = this.state[key];
-
-        this.setState({ [ key ]: Value - 1 });
-
+        const value = this.state[key];
+        this.setState({ [ key ]: value - 1 });
+        this.props.onShipChange(key, value-1)
       }
 
     render() {
@@ -47,7 +46,7 @@ class Gameform extends React.Component {
             Player 1 name: <input name="player1" onChange={this.onFieldChange.bind(this)} /> <br/>
             Player 2 name: <input name="player2" onChange={this.onFieldChange.bind(this)} /><br/>
             <h2>Enter the amount of ships for the game</h2>
-            <table id="ship-table" class="ship-container">
+            <table id="ship-table" className="ship-container">
                 <thead>
                     <tr>
                         <th>Ship</th>
@@ -59,33 +58,33 @@ class Gameform extends React.Component {
                 <tbody>
                     <tr>
                     <td>Carrier</td>
-                    <td class="ticker-box" onClick={() => this.DecrementItem('carrier')}>-</td>
+                    <td className="ticker-box" onClick={() => this.DecrementItem('carrier')}>-</td>
                     <td name="carrier" onChange={this.onShipFieldChange.bind(this)}>{this.state.carrier}</td>
-                    <td class="ticker-box" onClick={() => this.IncrementItem('carrier')}>+</td>
+                    <td className="ticker-box" onClick={() => this.IncrementItem('carrier')}>+</td>
                     </tr>
                     <tr>
                     <td>Battleship</td>
-                    <td class="ticker-box" onClick={() => this.DecrementItem('battleship')}>-</td>
+                    <td className="ticker-box" onClick={() => this.DecrementItem('battleship')}>-</td>
                     <td name="battleship" onChange={this.onShipFieldChange.bind(this)}>{this.state.battleship}</td>
-                    <td class="ticker-box" onClick={() => this.IncrementItem('battleship')}>+</td>
+                    <td className="ticker-box" onClick={() => this.IncrementItem('battleship')}>+</td>
                     </tr>
                     <tr>
                     <td>Submarine</td>
-                    <td class="ticker-box" onClick={() => this.DecrementItem('submarine')}>-</td>
+                    <td className="ticker-box" onClick={() => this.DecrementItem('submarine')}>-</td>
                     <td name="submarine" onChange={this.onShipFieldChange.bind(this)}>{this.state.submarine}</td>
-                    <td class="ticker-box" onClick={() => this.IncrementItem('submarine')}>+</td>
+                    <td className="ticker-box" onClick={() => this.IncrementItem('submarine')}>+</td>
                     </tr>
                     <tr>
                     <td>Cruiser</td>
-                    <td class="ticker-box" onClick={() => this.DecrementItem('cruiser')}>-</td>
+                    <td className="ticker-box" onClick={() => this.DecrementItem('cruiser')}>-</td>
                     <td name="cruiser" onChange={this.onShipFieldChange.bind(this)}>{this.state.cruiser}</td>
-                    <td class="ticker-box" onClick={() => this.IncrementItem('cruiser')}>+</td>
+                    <td className="ticker-box" onClick={() => this.IncrementItem('cruiser')}>+</td>
                     </tr>
                     <tr>
                     <td>Destroyer</td>
-                    <td class="ticker-box" onClick={() => this.DecrementItem('destroyer')}>-</td>
+                    <td className="ticker-box" onClick={() => this.DecrementItem('destroyer')}>-</td>
                     <td name="destroyer" onChange={this.onShipFieldChange.bind(this)}>{this.state.destroyer}</td>
-                    <td class="ticker-box" onClick={() => this.IncrementItem('destroyer')}>+</td>
+                    <td className="ticker-box" onClick={() => this.IncrementItem('destroyer')}>+</td>
                     </tr>
                 </tbody>
             </table>
