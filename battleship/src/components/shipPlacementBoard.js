@@ -28,8 +28,6 @@ class Board extends React.Component {
             }
             matrix.push(row)
         }
-
-
         return(
             <div className="board">
                 {matrix.map((row, ri) => (

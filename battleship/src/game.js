@@ -57,11 +57,14 @@ class Game extends React.Component {
         }, 0)
     }
     render() {
-        const {gameSetup} = this.state
+        const {gameSetup, ships} = this.state
         if(!gameSetup) {
             return(
                 <div className="container">
-                    <Gameform ships={this.state.ships} onChange={this.onChange} onSubmit={this.onSubmit} gridSize={this.state.gameGridSize} onShipChange={this.onShipChange} />
+                    <Gameform
+                     ships={this.state.ships} 
+                     onChange={this.onChange} 
+                     onSubmit={this.onSubmit} gridSize={this.state.gameGridSize} onShipChange={this.onShipChange} />
                 </div>
             )
         }else {
@@ -69,7 +72,7 @@ class Game extends React.Component {
                 <DndProvider backend={HTML5Backend} >
                 <div className="container">
                     <Gameplay 
-                    boats={this.state.ships}
+                    ships={ships}
                      rows={this.state.gameGridSize}
                       columns={this.state.gameGridSize}
                        player1Name={this.state.player1}

@@ -29,6 +29,7 @@ function Ship (props) {
             {blocks}
         </div>
       )
+        
     }
 
 const ShipBlock = () => {

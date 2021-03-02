@@ -3,8 +3,8 @@ import './index.css';
 
 
 class Gameform extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
                 carrier: 0,
                 battleship: 0,

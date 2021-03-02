@@ -17,12 +17,18 @@ class Gameplay extends React.Component {
             infoSceneDesc: '',
             shipsSet: false,
             gameOver: false,
+            ships: Object.assign({}, this.props.ships),
             p1ShipPlacement: [
+
+            ],
+            p2ShipPlacement: [
 
             ]
 
         }
+        
     }
+
 
     shipDropHandler = (size, name, location) => {
         const gridSize = this.props.rows 
@@ -32,7 +38,6 @@ class Gameplay extends React.Component {
         //location "23"
         var row = location[0]
         var endSquare = parseInt(location[1])+parseInt(size)
-        console.log(endSquare)
         if(endSquare>gridSize) {
             console.log("Ei mahdu")
             return null
@@ -50,7 +55,18 @@ class Gameplay extends React.Component {
         }
         if(ok) {
         this.setState({p1ShipPlacement: shipPlacement})
+
+        this.updateShipState(name)
+
         }
+    }
+
+    updateShipState(name) {
+        var newShips = Object.assign({}, this.state.ships)
+        console.log(newShips)
+        var value = newShips[name] -1
+        newShips[name] = value
+        this.setState({ships: newShips})
     }
 
     checkIfSquareOccupied = (square) => {
@@ -77,19 +93,24 @@ class Gameplay extends React.Component {
             uniqueKey++
             const shipCount = ships[key]
             for(let i=0;i<shipCount;i++) {
-                shipComponents.push(<Ship key={uniqueKey} size={ShipSizes[key]}/>)
+                shipComponents.push(<Ship name={key} key={uniqueKey} size={ShipSizes[key]}/>)
                 uniqueKey++
                 }
             return null
         })
         return shipComponents
     }
+    resetShipPlacement() {
+        console.log("Huhuu")
+        console.log(this.props.ships)
+        this.setState({p1ShipPlacement: []})
+        this.setState({ships: this.props.ships });
+    }
 
     render() {
-        const {rows, columns, player1Name, player2Name, boats} = this.props
-        const {showMiddleScene, playerTurn, shipsSet, p1ShipPlacement} = this.state
-
-        const shipsComponents = this.initializeShips(boats)
+        const {rows, columns, player1Name, player2Name} = this.props
+        const {showMiddleScene, playerTurn, shipsSet, p1ShipPlacement, ships} = this.state
+        
 
         //Cutscene so for changing the active player.
         if(showMiddleScene===true) {
@@ -98,11 +119,11 @@ class Gameplay extends React.Component {
             )
         }
         if(!shipsSet && playerTurn === player1Name) {
+            const shipsComponents = this.initializeShips(ships)
             return(
                 <div>
                 <InfoScene title="Place your ships " />
-                <h1>Player: {this.props.player1Name}</h1>
-                <BattleBoard rows={rows} columns={columns} handleClick={this.gridShoot.bind(this)}/>
+                <h1>Player: {player1Name}</h1>
                 <ul className="shipUl">
                 {shipsComponents.map((component, index) => (
                     <li key={index}>
@@ -111,7 +132,8 @@ class Gameplay extends React.Component {
                 ))}
                 </ul>
                 <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
-                
+                <button onClick={this.resetShipPlacement.bind(this)}>Reset Ships</button>
+                <BattleBoard rows={rows} columns={columns} handleClick={this.gridShoot.bind(this)}/>
                 </div>
             )
         }
