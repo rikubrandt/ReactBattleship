@@ -68,6 +68,7 @@ class Game extends React.Component {
                 </div>
             )
         }else {
+            const shipSquares = this.calculateTotalNumberOfBoatSquares(this.state.ships)
             return(
                 <DndProvider backend={HTML5Backend} >
                 <div className="container">
@@ -76,7 +77,8 @@ class Game extends React.Component {
                      rows={this.state.gameGridSize}
                       columns={this.state.gameGridSize}
                        player1Name={this.state.player1}
-                        player2Name={this.state.player2} />
+                        player2Name={this.state.player2}
+                        shipSquares={shipSquares} />
                 </div>
                 </DndProvider>
             )
