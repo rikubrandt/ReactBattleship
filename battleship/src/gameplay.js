@@ -23,7 +23,7 @@ class Gameplay extends React.Component {
             p1ShootingHistory: [],
             p2ShootingHistory: [],
             p1hits: 0,
-            P2hits: 0,
+            p2hits: 0,
             winner: '',
             shot: false
         }
@@ -33,7 +33,6 @@ class Gameplay extends React.Component {
 
     shipDropHandler = (size, name, location) => {
         const gridSize = this.props.rows
-        console.log(size, name, location)
         let shipPlacement = null
         if (this.state.playerTurn === this.props.player1Name) {
             shipPlacement = this.state.p1ShipPlacement
@@ -45,14 +44,12 @@ class Gameplay extends React.Component {
         var row = location[0]
         var endSquare = parseInt(location[1]) + parseInt(size)
         if (endSquare > gridSize) {
-            console.log("Ei mahdu")
             return null
         }
 
         for (var i = location[1]; i < endSquare; i++) {
             var square = "" + row + i
             if (this.checkIfSquareOccupied(square)) {
-                console.log("Occupied")
                 ok = false
                 break
             }
@@ -73,7 +70,6 @@ class Gameplay extends React.Component {
 
     updateShipState(name) {
         var newShips = Object.assign({}, this.state.ships)
-        console.log(newShips)
         var value = newShips[name] - 1
         newShips[name] = value
         this.setState({ ships: newShips })
@@ -93,14 +89,12 @@ class Gameplay extends React.Component {
 
     incrementHits = () => {
         if(this.state.playerTurn===this.props.player1Name) {
-            this.setState(prevState => {
-                return {p1hits: prevState.p1hits +1}
-            })
-        } else {
-            this.setState(prevState => {
-                return {p2hits: prevState.p2hits +1}
-            })
+            this.setState({p1hits: this.state.p1hits +1}, () => {this.checkWinner()}) 
         }
+        else {
+            this.setState({p2hits: this.state.p2hits +1}, () => {this.checkWinner()}) 
+        }
+        
     }
 
     gridShoot = (event) => {
@@ -127,7 +121,7 @@ class Gameplay extends React.Component {
                 alert("You already shot that square")
             }else {
                 if(this.state.p1ShipPlacement.includes(event)) {
-                    this.setState({p2hits: this.state.p2hits +1})
+                    this.incrementHits()
                 }
                 shipHistory = this.state.p2ShootingHistory
                 shipHistory.push(event)
@@ -137,7 +131,7 @@ class Gameplay extends React.Component {
     
     }
 
-    shootingContinueButtonOnClick= () => {
+    shootingContinueButtonOnClick = () => {
         if(this.state.playerTurn===this.props.player1Name) {
             this.setState({playerTurn: this.props.player2Name, showMiddleScene: true, shot: false})
         } else {
@@ -177,15 +171,30 @@ class Gameplay extends React.Component {
             alert("Place all your ships to the square.")
         }
     }
+    checkWinner() {
+        if(this.state.p1hits===this.props.shipSquares) {
+            this.setState({winner: this.state.player1Name, gameOver: true})
+        }
+        if(this.state.p2hits===this.props.shipSquares) {
+            this.setState({winner: this.state.player2Name, gameOver: true}, this.forceUpdate)
+        }
+    }
 
 
     render() {
-        const { rows, columns, player1Name, player2Name, } = this.props
-        const { showMiddleScene, playerTurn, shipsSet, p1ShipPlacement, p2ShipPlacement, ships, gameOver, p1ShootingHistory, p2ShootingHistory,} = this.state
+        const { rows, columns, player1Name, player2Name } = this.props
+        const { showMiddleScene, playerTurn, shipsSet, p1ShipPlacement, p2ShipPlacement, ships, gameOver, p1ShootingHistory, p2ShootingHistory, winner} = this.state
 
         if (showMiddleScene === true) {
             return (
                 <MiddleScene player={playerTurn} handleClick={this.middleSceneClick} />
+            )
+        }
+        if(gameOver) {
+            return(
+                <div>
+                    Voittaja {playerTurn}
+                </div>
             )
         }
         else if (!shipsSet && playerTurn === player1Name) {
@@ -223,11 +232,8 @@ class Gameplay extends React.Component {
                     <button onClick={this.shipsSetButton.bind(this)}>Confirm ship placement</button>
                 </div>
             )
-        } else if (shipsSet) {
-            while (!gameOver) {
-                if (this.checkWinner) {
-                    this.setState({ gameOver: true })
-                }
+        } else if (shipsSet && !gameOver) {
+
                 if (showMiddleScene === true) {
                     return (
                         <MiddleScene player={playerTurn} handleClick={this.middleSceneClick} />
@@ -236,7 +242,7 @@ class Gameplay extends React.Component {
                 else if (playerTurn === player1Name) {
                     return (
                         <div>
-                            <InfoScene player={playerTurn} desc="shoot by clicking the grid" />
+                            <InfoScene player={playerTurn} desc="Shoot by clicking the grid." />
                             <BattleBoard
                             enemyPlacement={p2ShipPlacement} 
                             shootingHistory={p1ShootingHistory}
@@ -250,7 +256,7 @@ class Gameplay extends React.Component {
                 } else {
                     return (
                         <div>
-                            <InfoScene player={playerTurn} desc="shoot by clicking the grid" />
+                            <InfoScene player={playerTurn} desc="Shoot by clicking the grid." />
                             <BattleBoard
                             enemyPlacement={p1ShipPlacement} 
                             shootingHistory={p2ShootingHistory}
@@ -266,16 +272,11 @@ class Gameplay extends React.Component {
 
 
             }
-            return(
-                <div>
-                    Game over winner is {this.state.winner}
-                </div>
-            )
         }
 
 
 
-    }
+    
 
 }
 export default Gameplay
