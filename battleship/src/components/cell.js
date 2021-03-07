@@ -3,12 +3,12 @@ import '../index.css';
 
 function Cell (props) {
     
-    const handleClick = (event) => {
+    const handleClick = () => {
       props.handleClick(props.id)
     }
       return (
   
-        <div onClick={handleClick} id={props.id} className="cell">
+        <div onClick={handleClick} id={props.id} className="cell" style={{background: props.background}}>
   
           {props.id}
   
