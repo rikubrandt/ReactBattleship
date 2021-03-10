@@ -34,7 +34,6 @@ class Game extends React.Component {
     }
     onSubmit = (event) => {
         event.preventDefault()
-
         this.setState( {
             player1: event.target.player1.value,
             player2: event.target.player2.value,
@@ -70,8 +69,8 @@ class Game extends React.Component {
         }else {
             const shipSquares = this.calculateTotalNumberOfBoatSquares(this.state.ships)
             return(
-                <DndProvider backend={HTML5Backend} >
                 <div className="container">
+                <DndProvider backend={HTML5Backend} >
                     <Gameplay 
                     ships={ships}
                      rows={this.state.gameGridSize}
@@ -79,8 +78,8 @@ class Game extends React.Component {
                        player1Name={this.state.player1}
                         player2Name={this.state.player2}
                         shipSquares={shipSquares} />
+                        </DndProvider>
                 </div>
-                </DndProvider>
             )
         }
         

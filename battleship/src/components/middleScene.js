@@ -1,10 +1,13 @@
 import React from 'react';
+import '../index.css';
+import Button from '@material-ui/core/Button';
+
 
 const MiddleScene = (props) => {
     return(
-        <div className="middleScene">
+        <div className="info">
             <h2>Player {props.player} turn</h2>
-            <button onClick={props.handleClick}>Continue</button>
+            <Button variant="contained" size="medium" color="primary" onClick={props.handleClick}>Continue</Button>
         </div>
     )
 

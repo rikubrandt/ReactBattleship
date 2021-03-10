@@ -4,12 +4,6 @@ import Cell from './placementCell'
 
 
 class Board extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            num: 0
-        }
-    }
 
     handleDrop = (size, name, location) => {
         this.props.handleDrop(size, name, location)

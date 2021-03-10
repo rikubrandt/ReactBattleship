@@ -4,12 +4,6 @@ import Cell from './cell'
 
 
 class Board extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            num: 0
-        }
-    }
 
     handleClick = (event) => {
         this.props.handleClick(event)
