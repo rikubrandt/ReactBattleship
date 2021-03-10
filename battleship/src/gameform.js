@@ -1,5 +1,7 @@
 import React from 'react';
 import './index.css';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 
 
 class Gameform extends React.Component {
@@ -20,19 +22,25 @@ class Gameform extends React.Component {
     }
 
     onShipFieldChange(event) {
-        console.log(event)
         const fieldName = event.target.name;
         const fieldValue = event.target.value;
         this.props.onShipChange(fieldName, fieldValue);
     }
 
     IncrementItem = (key) => {
+        if(this.state[key]===shipMaxValues[key]) {
+            alert("You can add only "  + shipMaxValues[key] + " for type: " + key+".")
+            return null
+        }
         const value = this.state[key];
         this.setState({ [ key ]: value + 1 });
         this.props.onShipChange(key, value+1)
     }
     
     DecrementItem = (key) => {
+        if(this.state[key]===0) {
+            return null
+        }
         const value = this.state[key];
         this.setState({ [ key ]: value - 1 });
         this.props.onShipChange(key, value-1)
@@ -43,8 +51,9 @@ class Gameform extends React.Component {
         <div className="gameForm">
             <h1>React Battleship</h1>
             <form onSubmit={this.props.onSubmit}>
-            Player 1 name: <input name="player1" onChange={this.onFieldChange.bind(this)} /> <br/>
-            Player 2 name: <input name="player2" onChange={this.onFieldChange.bind(this)} /><br/>
+            
+            <Input  name="player1" placeholder="Player 1 name" onChange={this.onFieldChange.bind(this)} /> <br/>
+            <Input name="player2"  placeholder="Player 2 name" onChange={this.onFieldChange.bind(this)} /><br/>
             <h2>Enter the amount of ships for the game</h2>
             <table id="ship-table" className="ship-container">
                 <thead>
@@ -89,8 +98,8 @@ class Gameform extends React.Component {
                 </tbody>
             </table>
 
-            
-            Grid Size: <input type="range" list="tickmarks" defaultValue="5" min="5" max="10" name="gameGridSize" onChange={this.onFieldChange.bind(this)}/><br/> 
+            Grid Size: {this.props.gridSize}x{this.props.gridSize}
+            <br/><input type="range" list="tickmarks" defaultValue="5" min="5" max="10" name="gameGridSize" onChange={this.onFieldChange.bind(this)}/><br/> 
             <datalist id="tickmarks">
                 <option value="5"></option>
                 <option value="6"></option>
@@ -99,11 +108,20 @@ class Gameform extends React.Component {
                 <option value="9"></option>
                 <option value="10"></option>
             </datalist>
-            <button type="submit">Start Game</button>
+
+            <Button variant="contained" size="medium" color="primary"  type="submit">Start Game</Button>
             </form>
         </div>
     )}
 
+}
+
+const shipMaxValues = {
+    carrier: 1,
+    battleship: 2,
+    submarine: 3,
+    cruiser: 4,
+    destroyer: 5,
 }
 
 export default Gameform

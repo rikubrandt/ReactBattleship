@@ -7,7 +7,6 @@ import './index.css';
 import ShipPlacementBoard from './components/shipPlacementBoard'
 import ShipSizes from './shipSizes';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 
 
 class Gameplay extends React.Component {
@@ -29,13 +28,55 @@ class Gameplay extends React.Component {
             p1hits: 0,
             p2hits: 0,
             winner: '',
-            shot: false
+            shot: false,
+            rotate: true
         }
 
     }
 
 
     shipDropHandler = (size, name, location) => {
+        const gridSize = this.props.rows
+        let shipPlacement = null
+        if(this.state.rotate) {
+            this.shipVerticalDrop(size, name, location)
+            } else {
+            if (this.state.playerTurn === this.props.player1Name) {
+                shipPlacement = this.state.p1ShipPlacement
+            } else {
+                shipPlacement = this.state.p2ShipPlacement
+            }
+    
+            var ok = false
+            var row = location[0]
+            var endSquare = parseInt(location[1]) + parseInt(size)
+            if (endSquare > gridSize) {
+                return null
+            }
+    
+            for (var i = location[1]; i < endSquare; i++) {
+                var square = "" + row + i
+                if (this.checkIfSquareOccupied(square)) {
+                    ok = false
+                    break
+                }
+                shipPlacement.push(square)
+                ok = true
+            }
+            if (ok) {
+                if (this.state.playerTurn === this.props.player1Name) {
+                    this.setState({ p1ShipPlacement: shipPlacement })
+                } else {
+                    this.setState({ p2ShipPlacement: shipPlacement })
+                }
+    
+                this.updateShipState(name)
+                
+            }
+        }
+    }
+
+    shipVerticalDrop(size, name, location) {
         const gridSize = this.props.rows
         let shipPlacement = null
         if (this.state.playerTurn === this.props.player1Name) {
@@ -45,14 +86,14 @@ class Gameplay extends React.Component {
         }
 
         var ok = false
-        var row = location[0]
-        var endSquare = parseInt(location[1]) + parseInt(size)
+        var row = location[1]
+        var endSquare = parseInt(location[0]) + parseInt(size)
         if (endSquare > gridSize) {
             return null
         }
 
-        for (var i = location[1]; i < endSquare; i++) {
-            var square = "" + row + i
+        for (var i = location[0]; i < endSquare; i++) {
+            var square = "" + i + row
             if (this.checkIfSquareOccupied(square)) {
                 ok = false
                 break
@@ -68,8 +109,9 @@ class Gameplay extends React.Component {
             }
 
             this.updateShipState(name)
-
+            
         }
+    
     }
 
     updateShipState(name) {
@@ -160,7 +202,7 @@ class Gameplay extends React.Component {
             uniqueKey++
             const shipCount = ships[key]
             for (let i = 0; i < shipCount; i++) {
-                shipComponents.push(<Ship name={key} key={uniqueKey} size={ShipSizes[key]} />)
+                shipComponents.push(<Ship name={key} rotate={true} key={uniqueKey} size={ShipSizes[key]} />)
                 uniqueKey++
             }
             return null
@@ -194,7 +236,32 @@ class Gameplay extends React.Component {
             this.setState({ winner: this.state.player1Name, gameOver: true })
         }
         if (this.state.p2hits === this.props.shipSquares) {
-            this.setState({ winner: this.state.player2Name, gameOver: true }, this.forceUpdate)
+            this.setState({ winner: this.state.player2Name, gameOver: true })
+        }
+    }
+
+    shipRender(shipsComponents) {
+        if(this.state.rotate) {
+            console.log("Rotatee ny saatana")
+            return(
+                <ul className="shipUl">
+                                {shipsComponents.map((component, index) => (
+                                    <li key={index}>
+                                        {component}
+                                    </li>
+                                ))}
+                            </ul>
+            )
+        } else {
+            return(
+                <ul className="shipUl">
+                                {shipsComponents.map((component, index) => (
+                                    <li key={index}>
+                                        {component}
+                                    </li>
+                                ))}
+                            </ul>
+            )
         }
     }
 
@@ -222,18 +289,13 @@ class Gameplay extends React.Component {
                     <InfoScene player={playerTurn} desc={infoSceneDesc} />
                     <div className="gamePlayContainer">
                         <div className="floatContainer">
+                            <h2>Your Board</h2>
                             <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
                             <Button variant="contained" color="secondary"size="small" onClick={this.resetShipPlacement.bind(this)}>Reset Ships</Button>
                             <Button variant="contained" color="primary" size="small" onClick={this.shipsSetButton.bind(this)}>Confirm ship placement</Button>
                         </div>
                         <div className="floatContainer">
-                            <ul className="shipUl">
-                                {shipsComponents.map((component, index) => (
-                                    <li key={index}>
-                                        {component}
-                                    </li>
-                                ))}
-                            </ul>
+                            {this.shipRender(shipsComponents)}
                         </div>
                     </div>
                 </div>

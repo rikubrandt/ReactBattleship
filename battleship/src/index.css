@@ -2,17 +2,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-* {
-  box-sizing: border-box;
-}
+
 .cell {
   width: 50px;
   height: 50px;
@@ -30,7 +27,7 @@ code {
 .gamePlayContainer {
   overflow:hidden;
   padding: 5px;
-  width: 90%;
+  width: 100%;
   margin: auto;
   text-align: center;
 }
@@ -38,7 +35,6 @@ code {
     padding: 5px;
     display: inline-block;  
     margin: 5px;
-
 }
 
 .gameForm {
@@ -50,9 +46,6 @@ input {
   margin: 3px;
 }
 
-#shipForm {
-  width: 50px;
-}
 
 .ship-container {
   display: table;
@@ -61,13 +54,12 @@ input {
   text-indent: initial;
   border-spacing: 2px;
   margin-left:20%;
-  margin-right: 20%;
   margin-bottom: 5%;
   width: 50%; 
 }
 
 .ticker-box {
-  border: .1rem solid #2a2b2a;
+  border: 1px solid #2859e0;
   cursor: pointer;
   font-size: 2rem;
   width: 60%;
@@ -82,3 +74,4 @@ input {
   text-align:center;
   margin: auto;
 }
+

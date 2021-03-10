@@ -12,10 +12,11 @@ function Ship (props) {
             isDragging: !!monitor.isDragging(),
         }),
       }))
+      const rotate = props.rotate
       const size = props.size
       const blocks = []
       for(let i=0;i<size;i++) {
-        blocks.push(<ShipBlock key={i}/>)
+        blocks.push(<ShipBlock index={i} key={i}/>)
       }
       return (
         
@@ -37,5 +38,7 @@ const ShipBlock = () => {
     <div className="shipDiv"></div>
   )
 }
+
+
 
 export default Ship

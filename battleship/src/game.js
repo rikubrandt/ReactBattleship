@@ -41,9 +41,13 @@ class Game extends React.Component {
         })
         if(this.state.player1.length<1 || this.state.player2.length <1) {
             alert("Please add player names.")
-        }else if(this.calculateTotalNumberOfBoatSquares(this.state.ships)>this.state.gameGridSize*this.state.gameGridSize) {
+        }else if(this.calculateTotalNumberOfBoatSquares(this.state.ships)*2>this.state.gameGridSize*this.state.gameGridSize) {
             alert("The sea is too crowded, go with less ships or expand the sea!")
-        } else {
+        }
+        else if(this.calculateTotalNumberOfBoatSquares(this.state.ships)===0) {
+            alert("Add atleast 1 ship.")
+        }
+         else {
             this.setState({gameSetup: true})
         }
 
