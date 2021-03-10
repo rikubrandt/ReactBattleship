@@ -13,6 +13,20 @@ class Board extends React.Component {
         return this.props.placedShips.includes(square)
     }
 
+    squareBackground = (square) => {
+        if(this.props.enemyShooting.includes(square) &&this.checkIfSquareHasShip(square)) {
+            return '#FF0000'
+        }else if(this.props.enemyShooting.includes(square)) {
+            return '#FFFACD'
+        }
+        else if(this.checkIfSquareHasShip(square)) {
+            console.log("Mustaa")
+            return '#000000'
+        } else {
+            return '#FFFFFF'
+        }
+    }
+
     render() {
         let matrix = [], row;
         for(let r=0; r<this.props.rows; r++) {
@@ -26,7 +40,7 @@ class Board extends React.Component {
             <div className="board">
                 {matrix.map((row, ri) => (
                     <Row key={ri}>
-                        {row.map(cellId => <Cell ship={this.checkIfSquareHasShip(cellId)} key={cellId} handleDrop={this.handleDrop} id={cellId}/>)}
+                        {row.map(cellId => <Cell ship={this.squareBackground(cellId)} key={cellId} handleDrop={this.handleDrop} id={cellId}/>)}
                     </Row>
                 ))}
             </div>

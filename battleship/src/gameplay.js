@@ -290,7 +290,7 @@ class Gameplay extends React.Component {
                     <div className="gamePlayContainer">
                         <div className="floatContainer">
                             <h2>Your Board</h2>
-                            <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
+                            <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} enemyShooting={p2ShootingHistory} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
                             <Button variant="contained" color="secondary"size="small" onClick={this.resetShipPlacement.bind(this)}>Reset Ships</Button>
                             <Button variant="contained" color="primary" size="small" onClick={this.shipsSetButton.bind(this)}>Confirm ship placement</Button>
                         </div>
@@ -308,7 +308,7 @@ class Gameplay extends React.Component {
                     <InfoScene player={playerTurn} desc={infoSceneDesc} extra={infoSceneMessage} />
                     <div className="gamePlayContainer">
                         <div className="floatContainer">
-                            <ShipPlacementBoard placedShips={p2ShipPlacement} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
+                            <ShipPlacementBoard placedShips={p2ShipPlacement} enemyShooting={p1ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
                             <Button variant="contained" color="secondary"size="small" onClick={this.resetShipPlacement.bind(this)}>Reset Ships</Button>
                             <Button variant="contained" color="primary" size="small" onClick={this.shipsSetButton.bind(this)}>Confirm ship placement</Button>
                         </div>
@@ -339,7 +339,7 @@ class Gameplay extends React.Component {
                         <InfoScene player={playerTurn} desc={infoSceneDesc} extra={infoSceneMessage} />
                         <div className="gamePlayContainer">
                             <div className="floatContainer">
-                                <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
+                                <ShipPlacementBoard placedShips={p1ShipPlacement} enemyShooting={p2ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
 
                             </div>
 
@@ -371,7 +371,7 @@ class Gameplay extends React.Component {
                             </div>
                         <Button variant="contained" size="small" color="primary" onClick={this.shootingContinueButtonOnClick.bind(this)}>Continue</Button>
                         <div className="floatContainer">
-                                <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
+                                <ShipPlacementBoard placedShips={p1ShipPlacement} enemyShooting={p1ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
 
                             </div>
                         </div>

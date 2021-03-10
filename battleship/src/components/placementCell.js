@@ -20,7 +20,7 @@ function Cell (props) {
 
       return (
   
-        <div style={{background: props.ship ? '#000' : '#fff' }} ref={drop} id={props.id} className="cell">
+        <div style={{background: props.ship}} ref={drop} id={props.id} className="cell">
   
           {props.id}
   
