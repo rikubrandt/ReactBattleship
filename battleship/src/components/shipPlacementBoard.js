@@ -20,7 +20,6 @@ class Board extends React.Component {
             return '#FFFACD'
         }
         else if(this.checkIfSquareHasShip(square)) {
-            console.log("Mustaa")
             return '#000000'
         } else {
             return '#FFFFFF'

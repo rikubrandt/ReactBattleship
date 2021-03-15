@@ -7,6 +7,7 @@ import './index.css';
 import ShipPlacementBoard from './components/shipPlacementBoard'
 import ShipSizes from './shipSizes';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 
 class Gameplay extends React.Component {
@@ -29,7 +30,7 @@ class Gameplay extends React.Component {
             p2hits: 0,
             winner: '',
             shot: false,
-            rotate: true
+            rotate: false
         }
 
     }
@@ -38,22 +39,22 @@ class Gameplay extends React.Component {
     shipDropHandler = (size, name, location) => {
         const gridSize = this.props.rows
         let shipPlacement = null
-        if(this.state.rotate) {
+        if (this.state.rotate) {
             this.shipVerticalDrop(size, name, location)
-            } else {
+        } else {
             if (this.state.playerTurn === this.props.player1Name) {
                 shipPlacement = this.state.p1ShipPlacement
             } else {
                 shipPlacement = this.state.p2ShipPlacement
             }
-    
+
             var ok = false
             var row = location[0]
             var endSquare = parseInt(location[1]) + parseInt(size)
             if (endSquare > gridSize) {
                 return null
             }
-    
+
             for (var i = location[1]; i < endSquare; i++) {
                 var square = "" + row + i
                 if (this.checkIfSquareOccupied(square)) {
@@ -69,9 +70,9 @@ class Gameplay extends React.Component {
                 } else {
                     this.setState({ p2ShipPlacement: shipPlacement })
                 }
-    
+
                 this.updateShipState(name)
-                
+
             }
         }
     }
@@ -109,9 +110,9 @@ class Gameplay extends React.Component {
             }
 
             this.updateShipState(name)
-            
+
         }
-    
+
     }
 
     updateShipState(name) {
@@ -183,7 +184,7 @@ class Gameplay extends React.Component {
     }
 
     shootingContinueButtonOnClick = () => {
-        if(!this.state.shot) {
+        if (!this.state.shot) {
             alert("Shoot your shot!")
             return null
         }
@@ -198,11 +199,12 @@ class Gameplay extends React.Component {
     initializeShips(ships) {
         var shipComponents = []
         var uniqueKey = 0
+        const rotate = this.state.rotate
         Object.keys(ships).map(function (key) {
             uniqueKey++
             const shipCount = ships[key]
             for (let i = 0; i < shipCount; i++) {
-                shipComponents.push(<Ship name={key} rotate={true} key={uniqueKey} size={ShipSizes[key]} />)
+                shipComponents.push(<Ship name={key} rotate={rotate} key={uniqueKey} size={ShipSizes[key]} />)
                 uniqueKey++
             }
             return null
@@ -242,26 +244,38 @@ class Gameplay extends React.Component {
 
     shipRender(shipsComponents) {
         if(this.state.rotate) {
-            console.log("Rotatee ny saatana")
             return(
-                <ul className="shipUl">
-                                {shipsComponents.map((component, index) => (
-                                    <li key={index}>
-                                        {component}
-                                    </li>
-                                ))}
-                            </ul>
+                <Grid container direction="row"
+                justify="center"
+                alignItems="baseline" spacing={1}>
+                    {shipsComponents.map((component, index) => (
+                        <Grid item key={index}>
+                        {component}
+                    </Grid>
+                ))}
+                </Grid>
             )
+
         } else {
-            return(
-                <ul className="shipUl">
-                                {shipsComponents.map((component, index) => (
-                                    <li key={index}>
-                                        {component}
-                                    </li>
-                                ))}
-                            </ul>
-            )
+        return (
+            <ul className="shipUl">
+                {shipsComponents.map((component, index) => (
+                    <li key={index}>
+                        {component}
+                    </li>
+                ))}
+            </ul>
+        )
+        }
+
+    }
+    onKeyPressed = (e) => {
+        if (e.key === 'r') {
+            if (this.state.rotate) {
+                this.setState({ rotate: false })
+            } else {
+                this.setState({ rotate: true })
+            }
         }
     }
 
@@ -285,13 +299,13 @@ class Gameplay extends React.Component {
         else if (!shipsSet && playerTurn === player1Name) {
             const shipsComponents = this.initializeShips(ships)
             return (
-                <div>
+                <div tabIndex={0} onKeyPress={this.onKeyPressed}>
                     <InfoScene player={playerTurn} desc={infoSceneDesc} />
                     <div className="gamePlayContainer">
                         <div className="floatContainer">
                             <h2>Your Board</h2>
                             <ShipPlacementBoard placedShips={p1ShipPlacement} rows={rows} enemyShooting={p2ShootingHistory} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
-                            <Button variant="contained" color="secondary"size="small" onClick={this.resetShipPlacement.bind(this)}>Reset Ships</Button>
+                            <Button variant="contained" color="secondary" size="small" onClick={this.resetShipPlacement.bind(this)}>Reset Ships</Button>
                             <Button variant="contained" color="primary" size="small" onClick={this.shipsSetButton.bind(this)}>Confirm ship placement</Button>
                         </div>
                         <div className="floatContainer">
@@ -304,22 +318,17 @@ class Gameplay extends React.Component {
         else if (!shipsSet && playerTurn === player2Name) {
             const shipsComponents = this.initializeShips(ships)
             return (
-                <div>
+                <div tabIndex={0} onKeyPress={this.onKeyPressed}>
                     <InfoScene player={playerTurn} desc={infoSceneDesc} extra={infoSceneMessage} />
                     <div className="gamePlayContainer">
                         <div className="floatContainer">
                             <ShipPlacementBoard placedShips={p2ShipPlacement} enemyShooting={p1ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
-                            <Button variant="contained" color="secondary"size="small" onClick={this.resetShipPlacement.bind(this)}>Reset Ships</Button>
+                            <Button variant="contained" color="secondary" size="small" onClick={this.resetShipPlacement.bind(this)}>Reset Ships</Button>
                             <Button variant="contained" color="primary" size="small" onClick={this.shipsSetButton.bind(this)}>Confirm ship placement</Button>
                         </div>
                         <div className="floatContainer">
-                            <ul className="shipUl">
-                                {shipsComponents.map((component, index) => (
-                                    <li key={index}>
-                                        {component}
-                                    </li>
-                                ))}
-                            </ul>
+                        {this.shipRender(shipsComponents)}
+                            <p>Press R to rotate ships.</p>
                         </div>
                     </div>
                 </div>
@@ -369,13 +378,13 @@ class Gameplay extends React.Component {
                                     columns={columns}
                                     handleClick={this.gridShoot.bind(this)} />
                             </div>
-                        <Button variant="contained" size="small" color="primary" onClick={this.shootingContinueButtonOnClick.bind(this)}>Continue</Button>
-                        <div className="floatContainer">
+                            <Button variant="contained" size="small" color="primary" onClick={this.shootingContinueButtonOnClick.bind(this)}>Continue</Button>
+                            <div className="floatContainer">
                                 <ShipPlacementBoard placedShips={p1ShipPlacement} enemyShooting={p1ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
 
                             </div>
                         </div>
-                        
+
                     </div>
 
                 )

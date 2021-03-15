@@ -13,29 +13,50 @@ function Ship (props) {
         }),
       }))
       const rotate = props.rotate
+      const styles = {
+        opacity: isDragging ? 0.5 : 1,
+        cursor: 'move',
+      }
       const size = props.size
       const blocks = []
-      for(let i=0;i<size;i++) {
-        blocks.push(<ShipBlock index={i} key={i}/>)
+
+      if(rotate===true) {
+        for(let i=0;i<size;i++) {
+          blocks.push(
+            <div className="divTableRow" key={i}>
+          <ShipBlock rotate={rotate} index={i} key={i}/>
+          </div>
+          )
+        }
+        return(
+          <div className="divTable" ref={drag}
+          style={styles}>
+              <div className="divTableBody" >
+                    {blocks}
+              </div>
+          </div>
+        )
+      } else {
+        for(let i=0;i<size;i++) {
+          blocks.push(<ShipBlock index={i} key={i}/>)
+        }
+        return (
+          <div
+          className="shipContainer"
+            ref={drag}
+            style={styles}>
+              {blocks}
+          </div>
+        )
       }
-      return (
-        
-        <div
-        className="shipContainer"
-          ref={drag}
-          style={{
-            opacity: isDragging ? 0.5 : 1,
-            cursor: 'move',
-          }}>
-            {blocks}
-        </div>
-      )
+
         
     }
 
-const ShipBlock = () => {
+const ShipBlock = (props) => {
+  const divName = props.rotate ? 'divTableCell' : 'shipDiv'
   return(
-    <div className="shipDiv"></div>
+    <div className={divName}></div>
   )
 }
 
