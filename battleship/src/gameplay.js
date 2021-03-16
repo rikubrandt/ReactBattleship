@@ -228,7 +228,7 @@ class Gameplay extends React.Component {
                 shipsSet: true,
                 playerTurn: this.props.player1Name,
                 showMiddleScene: true,
-                infoSceneDesc: 'Shoot by clicking the square on the enemy grid.'
+                infoSceneDesc: 'Shoot by clicking the square on the enemy board.'
             })
         } else {
             alert("Place all your ships to the square.")
@@ -317,7 +317,9 @@ class Gameplay extends React.Component {
                         </div>
                         <div className="floatContainer">
                             {this.shipRender(shipsComponents)}
+                            <p>Press R to rotate ships.</p>
                         </div>
+                        <Button variant="contained" size="medium" color="secondary" onClick={() => {if(window.confirm('Are you sure you want to end the game?')){this.resetGame()}}}>End game</Button>
                     </div>
                 </div>
             )
@@ -337,6 +339,7 @@ class Gameplay extends React.Component {
                         {this.shipRender(shipsComponents)}
                             <p>Press R to rotate ships.</p>
                         </div>
+                        <Button variant="contained" size="medium" color="secondary" onClick={() => {if(window.confirm('Are you sure you want to end the game?')){this.resetGame()}}}>End game</Button>
                     </div>
                 </div>
             )
@@ -355,12 +358,14 @@ class Gameplay extends React.Component {
                         <InfoScene player={playerTurn} desc={infoSceneDesc} extra={infoSceneMessage} />
                         <div className="gamePlayContainer">
                             <div className="floatContainer">
+                                <h1>Your Board</h1>
                                 <ShipPlacementBoard placedShips={p1ShipPlacement} enemyShooting={p2ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
 
                             </div>
 
                             <Button variant="contained" size="small" color="primary" onClick={this.shootingContinueButtonOnClick.bind(this)}>Continue</Button>
                             <div className="floatContainer">
+                                <h1>Enemy Board</h1>
                                 <BattleBoard
                                     enemyPlacement={p2ShipPlacement}
                                     shootingHistory={p1ShootingHistory}
@@ -368,6 +373,7 @@ class Gameplay extends React.Component {
                                     columns={columns}
                                     handleClick={this.gridShoot.bind(this)} />
                             </div>
+                            <Button variant="contained" size="medium" color="secondary" onClick={() => {if(window.confirm('Are you sure you want to end the game?')){this.resetGame()}}}>End game</Button>
                         </div>
                     </div>
 
@@ -378,6 +384,7 @@ class Gameplay extends React.Component {
                         <InfoScene player={playerTurn} desc={infoSceneDesc} extra={infoSceneMessage} />
                         <div className="gamePlayContainer">
                             <div className="floatContainer">
+                            <h1>Enemy Board</h1>
                                 <BattleBoard
                                     enemyPlacement={p1ShipPlacement}
                                     shootingHistory={p2ShootingHistory}
@@ -387,9 +394,11 @@ class Gameplay extends React.Component {
                             </div>
                             <Button variant="contained" size="small" color="primary" onClick={this.shootingContinueButtonOnClick.bind(this)}>Continue</Button>
                             <div className="floatContainer">
+                            <h1>Your Board</h1>
                                 <ShipPlacementBoard placedShips={p1ShipPlacement} enemyShooting={p1ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
 
                             </div>
+                            <Button variant="contained" size="medium" color="secondary" onClick={() => {if(window.confirm('Are you sure you want to end the game?')){this.resetGame()}}}>End game</Button>
                         </div>
 
                     </div>

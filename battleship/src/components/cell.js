@@ -1,5 +1,5 @@
 import React from 'react';
-import '../index.css';
+import '../game.css';
 
 function Cell (props) {
     
@@ -10,7 +10,6 @@ function Cell (props) {
   
         <div onClick={handleClick} id={props.id} className="cell" style={{background: props.background}}>
   
-          {props.id}
   
         </div>
   

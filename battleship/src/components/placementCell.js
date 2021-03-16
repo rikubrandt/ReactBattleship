@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemTypes } from '../utils'
 import { useDrop } from 'react-dnd'
-import '../index.css';
+import '../game.css';
 
 function Cell (props) {
     
