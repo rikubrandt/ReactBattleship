@@ -5,6 +5,7 @@ import MiddleScene from './components/middleScene';
 import Ship from './components/ship'
 import './index.css';
 import ShipPlacementBoard from './components/shipPlacementBoard'
+import WinnerScreen from './components/winnerScreen'
 import ShipSizes from './shipSizes';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -279,6 +280,10 @@ class Gameplay extends React.Component {
         }
     }
 
+    resetGame = () => {
+        this.props.resetGame()
+    }
+
 
     render() {
         const { rows, columns, player1Name, player2Name } = this.props
@@ -291,8 +296,10 @@ class Gameplay extends React.Component {
         }
         if (gameOver) {
             return (
-                <div>
-                    Winner {playerTurn}
+                <div className="gamePlayContainer">
+                    <div className="floatContainer">
+                    <WinnerScreen winner={playerTurn} newGame={this.resetGame}/>
+                    </div>
                 </div>
             )
         }

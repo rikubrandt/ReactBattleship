@@ -59,6 +59,25 @@ class Game extends React.Component {
             return total + ships[key] * shipSizes[key]
         }, 0)
     }
+
+
+    resetGame = () => {
+        this.setState({
+            player1: '',
+            player2: '',
+            total: 0,
+            ships: {
+            carrier: 0,
+            battleship: 0,
+            cruiser: 0,
+            submarine: 0,
+            destroyer: 0,
+            },
+            gameGridSize: 5,
+            gameSetup: false
+        })
+    }
+
     render() {
         const {gameSetup, ships} = this.state
         if(!gameSetup) {
@@ -81,7 +100,8 @@ class Game extends React.Component {
                       columns={this.state.gameGridSize}
                        player1Name={this.state.player1}
                         player2Name={this.state.player2}
-                        shipSquares={shipSquares} />
+                        shipSquares={shipSquares}
+                        resetGame={this.resetGame} />
                         </DndProvider>
                 </div>
             )

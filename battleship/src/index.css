@@ -46,7 +46,9 @@ input {
   width: 30%;
   margin: 3px;
 }
-
+.li {
+  margin: 10px;
+}
 
 .ship-container {
   display: table;

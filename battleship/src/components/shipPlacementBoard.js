@@ -9,6 +9,7 @@ class Board extends React.Component {
         this.props.handleDrop(size, name, location)
     }
 
+
     checkIfSquareHasShip = (square) => {
         return this.props.placedShips.includes(square)
     }
@@ -39,7 +40,7 @@ class Board extends React.Component {
             <div className="board">
                 {matrix.map((row, ri) => (
                     <Row key={ri}>
-                        {row.map(cellId => <Cell ship={this.squareBackground(cellId)} key={cellId} handleDrop={this.handleDrop} id={cellId}/>)}
+                        {row.map(cellId => <Cell ship={this.squareBackground(cellId)} key={cellId} handleHover={this.handleHover} handleDrop={this.handleDrop} id={cellId}/>)}
                     </Row>
                 ))}
             </div>
