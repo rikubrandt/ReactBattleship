@@ -3,10 +3,10 @@ import BattleBoard from './components/battleboard'
 import InfoScene from './components/infoScene'
 import MiddleScene from './components/middleScene';
 import Ship from './components/ship'
-import './index.css';
+import './styles/index.css';
 import ShipPlacementBoard from './components/shipPlacementBoard'
 import WinnerScreen from './components/winnerScreen'
-import ShipSizes from './shipSizes';
+import ShipSizes from './utils/shipSizes';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -159,13 +159,12 @@ class Gameplay extends React.Component {
         }
 
     }
-
+    //EventHandler for shooting in the battleship
     gridShoot = (event) => {
         if (this.state.shot) {
             alert("You already shot, press continue")
             return null
         }
-        console.log(this.state.playerTurn + " shot at number " + event)
         if (this.state.playerTurn === this.props.player1Name) {
             if (this.state.p1ShootingHistory.includes(event)) {
                 alert("You already shot that square")
@@ -196,7 +195,7 @@ class Gameplay extends React.Component {
         }
 
     }
-
+    //Initialize ships from the shipstate
     initializeShips(ships) {
         var shipComponents = []
         var uniqueKey = 0
@@ -220,6 +219,7 @@ class Gameplay extends React.Component {
         }
         this.setState({ ships: this.props.ships });
     }
+    //Player confirms ships are set
     shipsSetButton() {
         if (this.state.playerTurn === this.props.player1Name && this.state.p1ShipPlacement.length === this.props.shipSquares) {
             this.setState({ playerTurn: this.props.player2Name, showMiddleScene: true, ships: this.props.ships })
@@ -242,7 +242,7 @@ class Gameplay extends React.Component {
             this.setState({ winner: this.state.player2Name, gameOver: true })
         }
     }
-
+    //renders the ships preplacement, Checks if r is pressed for rotate.
     shipRender(shipsComponents) {
         if(this.state.rotate) {
             return(
@@ -344,7 +344,7 @@ class Gameplay extends React.Component {
                 </div>
             )
         } else if (shipsSet && !gameOver) {
-
+                //Ships are set game can begin
             if (showMiddleScene === true) {
                 return (
                     <div className="gamePlayContainer">
@@ -379,6 +379,7 @@ class Gameplay extends React.Component {
 
                 )
             } else {
+                //Player2 turn to shoot
                 return (
                     <div>
                         <InfoScene player={playerTurn} desc={infoSceneDesc} extra={infoSceneMessage} />
@@ -395,7 +396,7 @@ class Gameplay extends React.Component {
                             <Button variant="contained" size="small" color="primary" onClick={this.shootingContinueButtonOnClick.bind(this)}>Continue</Button>
                             <div className="floatContainer">
                             <h1>Your Board</h1>
-                                <ShipPlacementBoard placedShips={p1ShipPlacement} enemyShooting={p1ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
+                                <ShipPlacementBoard placedShips={p2ShipPlacement} enemyShooting={p1ShootingHistory} rows={rows} columns={columns} handleDrop={this.shipDropHandler.bind(this)} />
 
                             </div>
                             <Button variant="contained" size="medium" color="secondary" onClick={() => {if(window.confirm('Are you sure you want to end the game?')){this.resetGame()}}}>End game</Button>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ItemTypes } from '../utils'
+import { ItemTypes } from '../utils/utils.js'
 import { useDrop } from 'react-dnd'
-import '../game.css';
+import '../styles/game.css';
 
 function Cell (props) {
     
@@ -21,16 +21,14 @@ function Cell (props) {
       drop: monitor => {handleDrop(monitor.size, monitor.name, props.id)},
     }))
 
-
+    
     const cellColor = () => {
-      if(isOver && props.ship === '#000000') {
+      if(isOver && props.color === '#000000') {
         return '#FF2D00'
       }else if(isOver) {
         return '#7CFC00'
-      }else if(props.ship==='#000000') {
-        return '#000000'
       }else {
-        return '#FFFFFF'
+        return props.color
       }
     }
 

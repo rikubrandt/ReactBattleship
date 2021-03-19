@@ -1,7 +1,7 @@
 import React from 'react';
 import Gameform from './gameform'
 import Gameplay from './gameplay'
-import shipSizes from './shipSizes';
+import shipSizes from './utils/shipSizes';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 

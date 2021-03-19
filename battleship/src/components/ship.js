@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrag } from 'react-dnd'
-import {ItemTypes} from '../utils'
-import '../game.css';
+import {ItemTypes} from '../utils/utils.js'
+import '../styles/game.css';
 
 
 function Ship (props) {
@@ -20,6 +20,7 @@ function Ship (props) {
       const size = props.size
       const blocks = []
 
+      //Render in rows or columns :D
       if(rotate===true) {
         for(let i=0;i<size;i++) {
           blocks.push(
