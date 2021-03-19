@@ -1,5 +1,5 @@
 
-#React Battleship
+# React Battleship
 
 Riku Brandt
 Arttu Lehtonen
