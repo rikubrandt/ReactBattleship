@@ -1,11 +1,6 @@
 
 # React Battleship
-
-## Riku Brandt 523334
-Pelilogiikan tekeminen, sekä pelilaudan suunnittelu
-
-## Arttu Lehtonen 524440
-Aloituslomakkeen tekeminen ja pelin visuaalinen ilme.
+School project
 
 ### `npm start`
 Launches the program
